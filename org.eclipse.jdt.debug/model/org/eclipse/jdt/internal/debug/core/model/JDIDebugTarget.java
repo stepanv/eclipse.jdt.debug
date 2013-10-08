@@ -1962,17 +1962,19 @@ public class JDIDebugTarget extends JDIDebugElement implements
 			} catch (TimeoutException e) {
 				// continue - attempt to create the thread
 			}
-			JDIThread jdiThread = findThread(thread);
-			if (jdiThread == null) {
-				jdiThread = createThread(thread);
+			synchronized(fThreads) {
+				JDIThread jdiThread = findThread(thread);
 				if (jdiThread == null) {
-					return false;
+					jdiThread = createThread(thread);
+					if (jdiThread == null) {
+						return false;
+					}
+				} else {
+					jdiThread.disposeStackFrames();
+					jdiThread.fireChangeEvent(DebugEvent.CONTENT);
 				}
-			} else {
-				jdiThread.disposeStackFrames();
-				jdiThread.fireChangeEvent(DebugEvent.CONTENT);
+				return !jdiThread.isSuspended();
 			}
-			return !jdiThread.isSuspended();
 		}
 
 		/*
