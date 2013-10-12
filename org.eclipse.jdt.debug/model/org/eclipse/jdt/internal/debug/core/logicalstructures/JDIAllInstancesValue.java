@@ -53,7 +53,7 @@ public class JDIAllInstancesValue extends JDIArrayValue {
 		fRoot = root;
 		try {
 			IJavaType[] javaTypes = target.getJavaTypes("java.lang.Object[]"); //$NON-NLS-1$
-			if (javaTypes.length > 0) {
+			if (javaTypes != null && javaTypes.length > 0) {
 				fType = (IJavaArrayType) javaTypes[0];
 			}
 		} catch (DebugException e) {

@@ -57,7 +57,7 @@ public class JDIReferenceListValue extends JDIObjectValue implements
 		try {
 			IJavaType[] javaTypes = ((JDIDebugTarget) root.getDebugTarget())
 					.getJavaTypes("java.lang.Object[]"); //$NON-NLS-1$
-			if (javaTypes.length > 0) {
+			if (javaTypes != null && javaTypes.length > 0) {
 				fType = javaTypes[0];
 			}
 		} catch (DebugException e) {
